@@ -30,13 +30,14 @@ def calcula_centroides(X):
   lb_2         = []
   centroides   = pd.DataFrame(columns = X.columns[:-1])
 
-  # Carregar cada pont0 para o seu rótulo
+  # Carregar cada ponto para o seu rótulo
   for i in range(0,X.shape[0]):
     if X['labels'].values[i] == 1:
       lb_1.append(X.iloc[i,:-1])
     else:
       lb_2.append(X.iloc[i,:-1])
 
+  # Armazena os pontos dos centroides
   centroides = centroides.append(sum(lb_1)/len(lb_1),ignore_index=True)
   centroides = centroides.append(sum(lb_2)/len(lb_2),ignore_index=True)
   centroides.reset_index(drop=True,inplace=True)

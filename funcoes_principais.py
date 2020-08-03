@@ -17,7 +17,7 @@
 """
 
 """
-          Imports de bibliotecas necessáricas
+                                Imports de bibliotecas necessáricas
 """
 
 # Biblioteca para tratar vetores e matrizes
@@ -39,7 +39,7 @@ import obtencao_de_atributos as obt
 atributos = obt.get_atributos()
 
 """
-          Algoritmo K-Nearest-Neighborhood
+                                  Algoritmo K-Nearest-Neighborhood
 
 1.Carregar os dados
 
@@ -89,7 +89,7 @@ def KNN(X_treino,y_teste,n_vizinhos):
   return y_pred
 
 """
-          Nearest Prototype Classifier
+                                 Nearest Prototype Classifier
 
 1. Carregar os dados
 
@@ -190,15 +190,29 @@ def kfold(k,atributos,metodo,n_vizinhos=0):
   print(f'Acurácia média do {str(metodo.__name__)}: {np.mean(acuracias)}%')
   
 
+"""
+                      Teste para Nearest_prototype_classifier
+"""
+print('*'*80)
+print(' '*20,'Teste com Nearest_prototype_classifier')
+print('*'*80)
 kfold(10,atributos,Nearest_prototype_classifier)
+# Caso queria buscar o melhor kfold para o Nearest apenas descomente
 # for i in [2,3,4,5,6,7,8,9,10,12,13,25]:
 #   print(f'{i} folds temos:')
 #   kfold(i,atributos,Nearest_prototype_classifier)
 #   print('-'*50)
 
+print('\n\n')
+
+"""
+                                 Teste para KNN
+"""
+print('*'*80)
+print(' '*30,'Teste com KNN')
+print('*'*80)
 # Conforme requerido verificar o melhor resultado a partir dos parâmetros
-# for n_vizinhos in [2,3,4,5,6,10]:
-#   for folds in [4,6,8,10]:
-#     print(f'{n_vizinhos} vizinhos com {folds} folds')
-#     kfold(folds,atributos,KNN,n_vizinhos)
-#     print('-'*50)
+for n_vizinhos in [2,3,4,5,6,10]:
+    print(f'{n_vizinhos} vizinhos com 10 folds')
+    kfold(10,atributos,KNN,n_vizinhos)
+    print('-'*50)

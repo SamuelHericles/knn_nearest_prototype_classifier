@@ -1,7 +1,7 @@
 import pandas as pd
 
 """
-    Pega a base da dos e reduz ela a partir de atributos
+                        Pega a base da dos e reduz ela a partir de atributos
 """
 def get_atributos():
 
