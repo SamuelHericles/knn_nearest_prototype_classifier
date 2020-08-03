@@ -114,25 +114,27 @@ def KNN(X_treino,y_teste,n_vizinhos):
   @return rótulos dos pontos
 """
 def Nearest_prototype_classifier(X,y):
-  y_pred     = pd.DataFrame({'Distance':[],'labels':[]})
   
   # Calcula os centróides dos rótulos
   centroides = fb.calcula_centroides(X)
-  
+
   # Calcula as distancias dos rótulos
+  y_pred     = pd.DataFrame({'labels':[]})
   for i in range(0, y.shape[0]):
     df_aux = pd.DataFrame({'Distance':[],'labels':[]})
     for j in range(0,centroides.shape[0]):
-      df_aux = df_aux.append({'Distance': fb.dist_euclidiana(y.iloc[i,:-1],centroides.iloc[j,:-1]),
-                              'labels':centroides.iloc[j,-1]},
-                              ignore_index=True)                       
-    df_aux.reset_index(drop=True,inplace=True)
+      #print(f'{y.iloc[i,:-1]}-{centroides.iloc[j,:-1]}')
+      df_aux = df_aux.append({'Distance': fb.dist_euclidiana(y.iloc[i,:-1],
+                                                             centroides.iloc[j,:-1]),
+                              'labels'  : centroides.iloc[j,-1]},
+                              ignore_index=True)    
     df_aux.sort_values('Distance',inplace=True)
 
     # Armazenza os rótulos dos pontos
-    y_pred = y_pred.append({'Distance':df_aux.iloc[0,0],
-                            'labels':df_aux.iloc[0,1]}
+    y_pred = y_pred.append({'labels':df_aux.iloc[0,1]}
                             ,ignore_index=True)
+    y_pred.reset_index(drop=True,inplace=True)
+    
   return y_pred
 
 """
@@ -172,7 +174,9 @@ def kfold(k,atributos,metodo,n_vizinhos=0):
           itreino.append(i)
     X = atributos.iloc[itreino,:]
     y = atributos.iloc[iteste,:]
-
+    X.reset_index(drop=True,inplace=True)
+    y.reset_index(drop=True,inplace=True)
+    
     # Escolha do metodo de classificacao
     if n_vizinhos == 0:
       y_pred = metodo(X,y)
@@ -186,11 +190,15 @@ def kfold(k,atributos,metodo,n_vizinhos=0):
   print(f'Acurácia média do {str(metodo.__name__)}: {np.mean(acuracias)}%')
   
 
-#kfold(10,atributos,Nearest_prototype_classifier)
+kfold(10,atributos,Nearest_prototype_classifier)
+# for i in [2,3,4,5,6,7,8,9,10,12,13,25]:
+#   print(f'{i} folds temos:')
+#   kfold(i,atributos,Nearest_prototype_classifier)
+#   print('-'*50)
 
 # Conforme requerido verificar o melhor resultado a partir dos parâmetros
-for n_vizinhos in [2,3,4,5,6,10]:
-  for folds in [4,6,8,10]:
-    print(f'{n_vizinhos} vizinhos com {folds} folds')
-    kfold(folds,atributos,KNN,n_vizinhos)
-    print('-'*50)
+# for n_vizinhos in [2,3,4,5,6,10]:
+#   for folds in [4,6,8,10]:
+#     print(f'{n_vizinhos} vizinhos com {folds} folds')
+#     kfold(folds,atributos,KNN,n_vizinhos)
+#     print('-'*50)

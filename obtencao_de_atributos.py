@@ -30,6 +30,11 @@ def get_atributos():
     atributos['min']      = base.iloc[:,:-1].min(axis='columns')
     atributos['kurtosis'] = base.iloc[:,:-1].kurtosis(axis='columns')
     atributos['mediana']  = base.iloc[:,:-1].median(axis='columns')
+    
+    # Normlização zscore
+    atributos = (atributos - atributos.mean())/atributos.var()
+
+    # Rotulação dos dados
     atributos['labels']   = base['labels']
 
     # Retorna a base de dados   
